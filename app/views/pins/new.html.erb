@@ -1,0 +1,9 @@
+<% if notice.present? %>
+  <div id="notice"> 
+    <div class="alert alert-warning" >
+      <strong><%= notice %></strong>
+    </div>
+  </div>
+<% end %>
+<h1 class="text-center">Adding new post</h1>
+<%= render 'form' %>
