@@ -1,33 +1,19 @@
 Rails.application.routes.draw do
-  resources :pins
+  get 'sessions/new'
+
+  resources :pins do
+    member do
+      put "like", to: "pins#like"
+      put "dislike", to: "pins#dislike"
+    end 
+  end 
   root "pins#index"
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
-
-  # You can have the root of your site routed with "root"
-  # root 'welcome#index'
-
-  # Example of regular route:
-  #   get 'products/:id' => 'catalog#view'
-
-  # Example of named route that can be invoked with purchase_url(id: product.id)
-  #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
-
-  # Example resource route (maps HTTP verbs to controller actions automatically):
-  #   resources :products
-
-  # Example resource route with options:
-  #   resources :products do
-  #     member do
-  #       get 'short'
-  #       post 'toggle'
-  #     end
-  #
-  #     collection do
-  #       get 'sold'
-  #     end
-  #   end
-
+  resources :users
+  post "/signup", to: "users#create"
+  get "/signup", to: "users#new"
+  get "/login", to: "sessions#new"
+  post "login", to: "sessions#create"
+  get "/logout", to: "sessions#destroy"
   # Example resource route with sub-resources:
   #   resources :products do
   #     resources :comments, :sales

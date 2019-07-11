@@ -14,8 +14,8 @@ gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 gem 'bootstrap-sass', '~> 3.4.1'
+gem 'acts_as_votable', '~> 0.12.0'
 
-gem 'haml', '~> 4.0.5'
 gem 'simple_form', '~> 3.0.2'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -27,11 +27,12 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.7'
 
+gem 'paperclip', '~> 4.2.0'
 # Use Unicorn as the app server
 # gem 'unicorn'
-
+gem 'masonry-rails', '~> 0.2.1'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

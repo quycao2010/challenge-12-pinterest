@@ -1,5 +1,44 @@
-<h1><%= @pin.title %></h1>
-<p><%= @pin.description %></p>
-<%= link_to 'Back', root_path %>
-<%= link_to 'Edit', edit_pin_path %>
-<%= link_to 'Delete', pin_path, method: :delete, data: {confirm: "Are you sure"} %>
+<div id="pin_show" class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="panel panel-default">
+            <div class="panel-heading pin_image">
+                <%= image_tag @pin.image.url%>
+            </div>
+            <div class="panel-body">
+                <h1><%= @pin.title %></h1>
+                <p><%= @pin.description %></p>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="user">
+                            Submitted by <%= @pin.user.name%>
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="btn-group pull-right">
+                            <% if current_user.present? && (current_user.voted_up_on? @pin) %>
+                                <%= link_to dislike_pin_path(@pin),method: :put, class: "btn btn-default" do %>
+                                <span id="heart" class="glyphicon glyphicon-heart">
+                                    <%= @pin.get_upvotes.size %>
+                                </span>
+                                <% end %>
+                            <% else %>
+                                <%= link_to like_pin_path(@pin),method: :put, class: "btn btn-default" do %>
+                                    <span id="heart" class="glyphicon glyphicon-heart-empty">
+                                        <%= @pin.get_upvotes.size %>
+                                    </span>
+                                <% end %>
+                            <% end %>
+                            <% if logged_in? && @pin.user == current_user %>
+                                <%= link_to 'Back', root_path, class: "btn btn-info" %>
+                                <%= link_to 'Edit', edit_pin_path, class: "btn btn-info" %>
+                                <%= link_to 'Delete', pin_path, method: :delete, data: {confirm: "Are you sure"}, class: "btn btn-danger" %>
+                            <% end %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
