@@ -66,7 +66,7 @@ class PinsController < ApplicationController
   
   def check_login
     unless logged_in?
-      redirect_to login_path
+      redirect_to login_path,notice: "You have to login"
     end
   end
   
