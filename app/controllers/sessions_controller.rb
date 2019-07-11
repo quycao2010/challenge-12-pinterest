@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
       login(user)
       redirect_to root_path
     else
-      render 'new'
+      redirect_to login_path, notice: "Your user or password is wrong"
     end
   end
   

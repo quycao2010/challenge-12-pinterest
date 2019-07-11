@@ -1,7 +1,9 @@
 class PinsController < ApplicationController
-  before_action :check_login, only: [:edit, :update, :destory, :new, :create]
+  before_action :check_login, only: [:edit, :update, :destory, :new, :create, :dislike, :like]
+  before_action :set_pins, only: [:update, :destroy, :show]
+
   def index
-    @pins = Pin.all.order("created_at DESC")
+    @pins = Pin.all
   end
     
   def new
@@ -19,7 +21,7 @@ class PinsController < ApplicationController
   def create
     @pin = current_user.pins.create(pins_params)
     if @pin.save  
-      redirect_to root_path, notice: "The post is created successfull"
+      redirect_to pin_path(@pin), notice: "The post is created successfull"
     else
       redirect_to new_pin_path 
     end     
@@ -37,13 +39,27 @@ class PinsController < ApplicationController
   def destroy
     @pin = Pin.find(params[:id])
     @pin.destroy
-    redirect_to root_path, notice: "You have to login"
+    redirect_to root_path, notice: "Delete successfully"
   end
-  
-  
+
+  def like
+    @pin = Pin.find(params[:id])
+    @pin.upvote_by current_user
+    redirect_to :back
+  end
+
+  def dislike
+    @pin = Pin.find(params[:id])
+    @pin.downvote_by current_user
+    redirect_to :back
+  end
   
   private 
 
+  def set_pins
+    @pin = Pin.find(params[:id])
+  end
+  
   def pins_params
     params.require(:pin).permit(:title, :description, :image)
   end

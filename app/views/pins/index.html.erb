@@ -5,8 +5,8 @@
     </div>
   </div>
 <% end %>
-<div id="pins" class="transitions-enabled">
-  <%= @pins.each do |pin| %>
+<div id="pins" class="row transitions-enabled">
+  <% @pins.each do |pin| %>
     <div class="box panel panel-default">
       <%= link_to (image_tag pin.image.url(:medium)), pin_path(pin) %>
       <div class="panel-body">
@@ -15,3 +15,8 @@
     </div>
   <% end %>
 </div>
+<script>
+  setTimeout(() => {
+   document.getElementById('notice').innerHTML = ''; 
+  }, 3000);
+</script>

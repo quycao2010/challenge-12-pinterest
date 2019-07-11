@@ -1,7 +1,12 @@
 Rails.application.routes.draw do
   get 'sessions/new'
 
-  resources :pins
+  resources :pins do
+    member do
+      put "like", to: "pins#like"
+      put "dislike", to: "pins#dislike"
+    end 
+  end 
   root "pins#index"
   resources :users
   post "/signup", to: "users#create"
