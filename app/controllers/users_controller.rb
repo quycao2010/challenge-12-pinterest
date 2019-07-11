@@ -4,10 +4,24 @@ class UsersController < ApplicationController
     @user = User.new
   end
   
+  def edit
+    @user = User.find(params[:id])
+  end
+  
+  def update
+    @user = User.find(params[:id])
+    if @user.update(user_params)
+      redirect_to root_path, notice: "Update successfully"
+    else 
+      render 'new'
+    end
+  end
+  
+
   def create
     @user = User.create(user_params)
     if @user.save
-      redirect_to root_path, notice: "Welcome to Pinter"
+      redirect_to login_path
     else
       render 'new'
     end

@@ -1,8 +1,14 @@
 Rails.application.routes.draw do
+  get 'sessions/new'
+
   resources :pins
   root "pins#index"
   resources :users
   post "/signup", to: "users#create"
+  get "/signup", to: "users#new"
+  get "/login", to: "sessions#new"
+  post "login", to: "sessions#create"
+  get "/logout", to: "sessions#destroy"
   # Example resource route with sub-resources:
   #   resources :products do
   #     resources :comments, :sales

@@ -1,3 +1,4 @@
+<h1>Index page</h1>
 <% if notice.present? %>
   <div id="notice"> 
     <div class="alert alert-warning" >
@@ -5,8 +6,9 @@
     </div>
   </div>
 <% end %>
-<h1>Index page</h1>
 <%= @pins.each do |pin| %>
-    <h3><%= link_to "#{pin.title}", pin_path(pin) %></h3>
-    <p><%= pin.description %></p>
+  <%= link_to (image_tag pin.image.url(:medium)), pin_path(pin) %>
+  <h3><%= link_to "#{pin.title}", pin_path(pin) %></h3>
+  <p><%= pin.description %></p>
 <% end %>
+<%= link_to 'New Post', new_pin_path, class: "btn btn-primary" %>
