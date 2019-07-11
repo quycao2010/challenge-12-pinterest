@@ -1,6 +1,6 @@
 class PinsController < ApplicationController
   before_action :check_login, only: [:edit, :update, :destory, :new, :create, :dislike, :like]
-  before_action :set_pins, only: [:update, :destroy, :show]
+  before_action :set_pins, only: [:update, :destroy, :show, :like, :dislike]
 
   def index
     @pins = Pin.all
@@ -11,15 +11,27 @@ class PinsController < ApplicationController
   end
 
   def show
-    @pin = Pin.find(params[:id])
   end
   
   def edit
     @pin = Pin.find(params[:id]) 
   end
+
+  def upload_image
+    client_id = '6f670eda56814da'
+    client = Imgur::Client.new(client_id)
+    image_path = pins_params[:image]
+    image = Imgur::LocalImage.new(image_path, title: 'Awesome photo')
+    @uploaded = client.upload(image)
+    return @uploaded
+  end
+  
   
   def create
-    @pin = current_user.pins.create(pins_params)
+    uploaded = upload_image
+    data = pins_params
+    data[:image] =  uploaded.link
+    @pin = current_user.pins.create(data)
     if @pin.save  
       redirect_to pin_path(@pin), notice: "The post is created successfull"
     else
@@ -28,8 +40,10 @@ class PinsController < ApplicationController
   end
 
   def update
-    @pin = Pin.find(params[:id])
-    if @pin.update(pins_params)
+    uploaded = upload_image
+    data = pins_params
+    data[:image] =  uploaded.link
+    if @pin.update(data)
       redirect_to pin_path(@pin), notice: "Update successfully" 
     else
       redirect_to edit_pin_path
@@ -37,19 +51,16 @@ class PinsController < ApplicationController
   end
 
   def destroy
-    @pin = Pin.find(params[:id])
     @pin.destroy
     redirect_to root_path, notice: "Delete successfully"
   end
 
   def like
-    @pin = Pin.find(params[:id])
     @pin.upvote_by current_user
     redirect_to :back
   end
 
   def dislike
-    @pin = Pin.find(params[:id])
     @pin.downvote_by current_user
     redirect_to :back
   end

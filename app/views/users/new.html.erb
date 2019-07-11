@@ -1,13 +1,12 @@
 <h1 class="text-center">Signup</h1>
 <%= simple_form_for @user, html: { multipart: true } do |f| %>
     <% if @user.errors.any? %>
-        <div id="error_explanation">
-        <h2><%= pluralize(@user.errors.count, "error") %> prohibited this movie from being saved:</h2>
-        <ul>
-            <% @user.errors.full_messages.each do |message| %>
-                <li><%= message %></li>
-            <% end %>
-        </ul>
+        <div id="error_explanation" class="container">
+            <ul class="alert alert-warning" style="list-style:none;">
+                <% @user.errors.full_messages.each do |message| %>
+                    <li class="text-center"><%= message %></li>
+                <% end %>
+            </ul>
         </div>
     <% end %>
     <div class="container">
